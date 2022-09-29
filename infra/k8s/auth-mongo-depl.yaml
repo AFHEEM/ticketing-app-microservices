@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-mongo-depl
+spec:
+  replicas: 1
+  # selector is used by deployment to find the pods that it creates
+  selector:
+    matchLabels:
+      app: auth-mongo
+  template:
+    metadata:
+      # label for the pod
+      labels:
+        app: auth-mongo
+    spec:
+      containers:
+        - name: auth-mongo
+        # Using a public docker image of mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-mongo-srv
+spec:
+  # which pods to apply service to
+  selector:
+    app: auth-mongo
+  ports:
+    - name: db
+      port: 27017
+      targetPort: 27017
+      protocol: TCP

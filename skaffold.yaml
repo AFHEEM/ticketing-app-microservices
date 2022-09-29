@@ -1,0 +1,18 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/*
+build:
+  local:
+    push: false #Dont push to dockerhub when we build an image
+  artifacts:
+    - image: afheem/auth
+      context: auth #Folder where the project is
+      docker:
+        dockerfile: Dockerfile
+      sync: #Handle file changes in a folder and adds to POD
+        manual:
+          - dest: .
+            src: 'src/**/*.ts'
