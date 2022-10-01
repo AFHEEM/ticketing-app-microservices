@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   }
-});
+}, {toJSON:{}});
 
 userSchema.pre('save', async function(done) {
   if (this.isModified('password')) {
