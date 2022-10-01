@@ -34,6 +34,7 @@ const userSchema = new mongoose.Schema(
   },
   {
     // Use this block to remove the password field from the mongodb user data
+    // when using SELECT/Finding records
     toJSON: {
       transform(doc, ret) {
         ret.id = ret._id;
