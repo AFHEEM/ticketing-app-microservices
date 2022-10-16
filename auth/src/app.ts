@@ -16,7 +16,7 @@ app.use(json());
 app.use(
   cookieSession({
     signed: false,
-    secure: process.env.NODE_ENV !== "test", // enable only https for cookies
+    secure: process.env.NODE_ENV !== "test", // Disable this check for unit testing. secure=true enables only https for cookies -
   })
 );
 
