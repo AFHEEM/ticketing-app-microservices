@@ -33,6 +33,7 @@ afterAll(async () => {
   await mongoose.connection.close();
 });
 
+// Create a global signin function to avoid repetition of code
 global.signin = async () => {
   const email = "test@test.com";
   const password = "password";
