@@ -16,3 +16,11 @@ build:
         manual:
           - dest: .
             src: 'src/**/*.ts'
+    - image: afheem/client
+      context: client #Folder where the project is
+      docker:
+        dockerfile: Dockerfile
+      sync: #Handle file changes in a folder and adds to POD
+        manual:
+          - dest: .
+            src: '**/*.js'
