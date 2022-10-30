@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import Router from "next/router";
 import useRequest from "../../hooks/use-request";
 
 export default () => {
@@ -14,11 +14,15 @@ export default () => {
       email,
       password,
     },
+    onSuccess: () => { //Passing a callback function so to route to home page only if request succeeded
+      Router.push("/");
+    },
   });
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    doRequest();
+
+    await doRequest();
   };
 
   return (
