@@ -8,16 +8,15 @@ const LandingPage = ({ currentUser }) => {
 // Use getInitialProps to call a function before the component loads. This function uses server side rendering
 // Here we will use the currentuser logic to see if the user is loggedin
 // We cannot use the useRequest hook here since hooks run inside components
-LandingPage.getInitialProps = async () => {
+LandingPage.getInitialProps = async ({ req }) => {
   if (typeof window === "undefined") {
     // We are on the server
     // request should be made to http://ingress-nginx.ingress-nginx
     const { data } = await axios.get(
       "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser",
       {
-        headers: {
-          Host: "ticketing.dev",
-        },
+        headers: req.headers, // Ingress doesnot know what domain to use when
+        // the client tries to reach to an API therefore the hostmane is defined here
       }
     );
     return data;
