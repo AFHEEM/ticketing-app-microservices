@@ -13,6 +13,7 @@ let mongo: any;
 beforeAll(async () => {
   process.env.JWT_KEY = "tempstr";
 
+  // We are using inmemory Mongodb server for unit testing
   mongo = await MongoMemoryServer.create();
   const mongoUri = mongo.getUri();
 

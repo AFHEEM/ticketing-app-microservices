@@ -9,14 +9,25 @@ const LandingPage = ({ currentUser }) => {
 // Here we will use the currentuser logic to see if the user is loggedin
 // We cannot use the useRequest hook here since hooks run inside components
 LandingPage.getInitialProps = async () => {
-  const response = await axios
-    .get(
-      "http://auth-srv/api/users/currentuser"
-    )
-    .catch((err) => {
-      console.log(err.message);
-    });
-  return response.data;
+  if (typeof window === "undefined") {
+    // We are on the server
+    // request should be made to http://ingress-nginx.ingress-nginx
+    const { data } = await axios.get(
+      "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser",
+      {
+        headers: {
+          Host: "ticketing.dev",
+        },
+      }
+    );
+    return data;
+  } else {
+    //we are on the browser
+    // requests can be made with a base url of ''
+    const { data } = await axios.get("/api/users/currentuser");
+    return data;
+  }
+  return {};
 };
 
 export default LandingPage;
